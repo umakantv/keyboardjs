@@ -90,7 +90,7 @@ body {
     }
 }
 
-@media only screen and (max-width: 725px) and (min-width: 500px) {
+@media only screen and (max-width: 725px) {
     
     #keyboard ul .key {    
         height: 35px;
