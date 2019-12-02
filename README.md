@@ -45,8 +45,8 @@ keys: [
             ['\sin', '\cos', '\tan'],
             ['\phi', '\epsilon', '\lambda']
         ],
-        renderer: function(data) {
-            return katex.render(data);
+        renderer: function(data, elm) {
+            return katex.render(data, elm);
         }
     }
 ];
