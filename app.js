@@ -30,7 +30,7 @@ var keys = [
         lines: [
             [' \\alpha', ' \\beta', ' \\gamma', ' \\rho', ' \\sigma', ' \\epsilon', ' \\lambda', ' \\theta', ' \\psi'], 
             ['  x^2', ' \\frac{a}{b}', ' \\sum_{i=0}^{2n}', ' \\int_{0}^{\\pi}', ' \\frac{\\partial}{\\partial t}'],
-            [' +', '-', ' \\times', ' \\div', ' \\pm'], 
+            [' +', '-', ' \\times', ' \\div', ' \\pm', ' ='], 
         ]
     }
 ];

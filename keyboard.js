@@ -9,27 +9,42 @@
         t.KeyBoard = e()
     }
 }(function() {
-    return function(keys, inputElm) {
+    return function(options) {
         
-        var keyboard_div = createKeyboard(keys);
+        var keyboard_div = createKeyboard(options.keys);
         var keyboard = {
-            data: keys,
-            elm: null,
+            data: options.keys,
+            elms: [],
+            onKeypress: [],
+            activeElm: null,
+            unbound: [],
             showKeyboard: function() {
                 this.div.style.display = 'block';
             },
             hideKeyboard: function() {
                 this.div.style.display = 'none';
             },
-            bind: function(inputElm) {
-                this.elm = inputElm;
-                inputElm.addEventListener('focus', () => {
+            unbind: function(inputElm) {
+                function check(elm) {
+                    return elm == inputElm;
+                }
+                var i = this.elms.findIndex(check);
+                console.log(i);
+                if(i != -1) this.unbound[i] = true;
+            },
+            bind: function(inputElm, callback) {
+                var i = this.elms.length
+                if(!this.elms.includes(inputElm)) {
+                    this.elms.push(inputElm);
+                    this.onKeypress.push(callback);
+                    this.unbound.push(false);
+                }
+                else return;
+                inputElm.addEventListener('focus', (e) => {
+                    if(this.unbound[i]) return;
                     this.showKeyboard();
-                });
-                this.div.querySelectorAll('div.key').forEach(elm => {
-                    elm.addEventListener('click', ()=>{
-                        console.log(elm);
-                    })
+                    this.activeElm = i;
+                    inputElm.blur();
                 });
             },
             switchTabs: function(i) {
@@ -41,13 +56,16 @@
             },
             div: keyboard_div,
             keyPress: function(value) {
-                var past = this.elm.value;
-                this.elm.value = past + this.data[value[0]].lines[value[1]][value[2]];
-                this.elm.focus();
+                if(this.activeElm == null) return;
+                var i = this.activeElm;
+                if(this.unbound[i]) return;
+                var past = this.elms[i].value;
+                this.elms[i].value = past + this.data[value[0]].lines[value[1]][value[2]];
+                this.onKeypress[i](this.elms[i]);
             }
         }
 
-        function createTab(lines, tabId, math) {
+        function createTab(lines, tabId, renderer) {
             var tab = document.createElement('div');
             tab.classList.add('keyboard-tab');
             tab.id = `tab-${tabId}`;
@@ -58,9 +76,10 @@
                 line.forEach((value, j) => {
                     const key = document.createElement('li');
                     key.classList.add('key');
-                    if(math) key.classList.add('math');
+
                     key.setAttribute('target', `${tabId}-${i}-${j}`);
-                    key.innerText = value;
+                    if(renderer) renderer(value, key);
+                    else key.innerText = value;
                     key.addEventListener('click', ()=> {
                         keyboard.keyPress([tabId, i, j]);
                     })
@@ -113,7 +132,7 @@
             tabs.id = 'keyboard-tabs';
             
             keys.forEach((elm, i) => {
-                tabs.appendChild(createTab(elm.lines, i, elm.name == 'TeX'));
+                tabs.appendChild(createTab(elm.lines, i, elm.renderer?elm.renderer: null));
             });
             keyboard_gui.appendChild(tabs);
 
@@ -122,9 +141,11 @@
             document.body.appendChild(keyboard_gui);
             return keyboard_gui;
         }
-        keyboard.switchTabs(3);
-        keyboard.bind(inputElm);
-
+        keyboard.switchTabs(0);
+        keyboard.hideKeyboard();
+        options.elms.forEach((elm) => {
+            keyboard.bind(elm.field, elm.onKeypress);
+        });
 
         return keyboard;
     }
