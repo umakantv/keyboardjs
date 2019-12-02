@@ -34,8 +34,8 @@ keys: [
             ['a', 's', 'd', 'f'],
             ['z', 'x', 'c', 'v']
         ],
-        renderer: function() {
-            return 'hello world';
+        renderer: function(data, elm) {
+            elm.textContent = data;
         }
     },
     {
