@@ -41,9 +41,9 @@ keys: [
     {
         name: 'LaTex',
         lines: [
-            ['\sigma', '\rho', '\theta'],
-            ['\sin', '\cos', '\tan'],
-            ['\phi', '\epsilon', '\lambda']
+            ['\\sigma', '\\rho', '\\theta'],
+            ['\\sin', '\\cos', '\\tan'],
+            ['\\phi', '\\epsilon', '\\lambda']
         ],
         renderer: function(data, elm) {
             return katex.render(data, elm);
@@ -70,3 +70,8 @@ var kb = KeyBoard(options)
 | `unbind(inputElm)`            | Unbinds an old input. Doesn't delete the element from the array of elms |
 
 ## To Do
+
+0. Better key-level handling - take data in an object instead of an array, support key level styling with className option
+1. Store cursor positions for all inputs to pass into callback as second parameter
+2. Make draggable, optionally.
+3. Better home page

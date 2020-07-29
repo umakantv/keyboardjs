@@ -8,14 +8,43 @@
     <title>Keyboard</title>
     <link rel="stylesheet" href="dist/katex.min.css">
     <script defer src="dist/katex.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            margin: 0px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            width: 80%;
+        }
+        body  {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        #keyboard_input {
+            padding: 10px;
+            width: 100%;
+            font-size: 20px;
+            outline: none;
+            border: 2px solid rgb(70, 70, 172);
+        }
+        #keyboard_input:focus {
+            border: 2px solid rgb(70, 70, 172);
+        }
+    </style>
 
 </head>
 <body>
     <h1>Keyboard</h1>
     <div class="container">
-        <input type="text" name="" id="keyboard_input">
+        <textarea name="" id="keyboard_input" rows="10" placeholder="Click here to show the keyboard"></textarea>
     </div>
-    
+    <script src="dist/katex.min.js"></script>
     <script src="keyboard.js"></script>
     <script src="app.js"></script>
 </body>
